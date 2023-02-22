@@ -72,7 +72,28 @@ app.post('/v1/customer/add', async (req, res)=>{
     }
 });
 
-//delete customer
+//delete customer by id
+app.delete('/v1/customer/delete', async (req, res)=>{
+    console.log(`deleteById api hit, ID:${req.query.id}`);
+    let id = parseInt(req.query.id);
+    try {
+        let recordsDeleted = []
+        recordsDeleted = await knex('customers')
+                    .where({id})
+                    .del()
+                    .then((customer)=> customer)
+        return res.status(200).json({
+            status: "success",
+            data: recordsDeleted
+        })
+    } catch (error) {
+        console.log('error:'+error);
+        return res.status(500).json({
+            status:"failed",
+            error: error
+        })
+    }
+});
 
 const port = process.env.PORT;
 app.listen(port, ()=> console.log(`Server is running on port ${port}`));
