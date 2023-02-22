@@ -95,5 +95,31 @@ app.delete('/v1/customer/delete', async (req, res)=>{
     }
 });
 
+//update customer
+app.put('/v1/customer/update/:id', async (req, res)=>{
+    console.log(`customerUpdate api hit, ID:${req.params.id}`);
+    let id = parseInt(req.params.id)
+    console.log(`Customer: ${JSON.stringify(req.body)}`);
+    let customer = (req.body);
+    console.log(customer);
+    try {
+        let recordsUpdated=[]
+        recordsUpdated = await knex('customers')
+                    .where({id})
+                    .update(customer)
+                    .then((recordsUpdated)=> recordsUpdated)
+        return res.status(200).json({
+            status: "success",
+            data: recordsUpdated
+        })
+    } catch (error) {
+        console.log('error:'+error);
+        return res.status(500).json({
+            status:"failed",
+            error: error
+        })
+    }
+});
+
 const port = process.env.PORT;
 app.listen(port, ()=> console.log(`Server is running on port ${port}`));
