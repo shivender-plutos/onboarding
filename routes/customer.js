@@ -6,18 +6,18 @@ router.use(bodyParser.urlencoded({extended:true}));
 router.use(bodyParser.json());
 
 // get list of all customers
-router.get('/list', getList);
+router.get('/', getList);
 
 //get customer by id
 router.get('/:id', getByID);
 
 //add customer
-router.post('/add', add);
+router.post('/', add);
 
 //delete customer by id
-router.delete('/delete', deleteByID);
+router.delete('/', deleteByID);
 
 //update customer
-router.put('/update/:id', updateByID);
+router.put('/:id', updateByID);
 
 module.exports=router
